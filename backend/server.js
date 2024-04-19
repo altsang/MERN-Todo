@@ -11,7 +11,13 @@ let Todo = require("./todo.model");
 app.use(cors());
 app.use(bodyParser.json());
 
+<<<<<<< HEAD
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/todos", { useNewUrlParser: true, useUnifiedTopology: true });
+||||||| parent of e3f2e6e (Update MongoDB connection string and install dependencies)
+mongoose.connect("mongodb://127.0.0.1:27017/todos", { useNewUrlParser: true });
+=======
+mongoose.connect("mongodb://172.17.0.2:27017/todos", { useNewUrlParser: true });
+>>>>>>> e3f2e6e (Update MongoDB connection string and install dependencies)
 const connection = mongoose.connection;
 
 connection.once("open", function() {
