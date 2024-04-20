@@ -46,7 +46,7 @@ todoRoutes.route("/add").post(function(req, res) {
       console.log(err);
       res.status(400).send("adding todo failed");
     } else {
-      res.status(200).json({ todo: "todo added" });
+      res.status(200).json({ todo: "todo added successfully" });
     }
   });
 });
@@ -57,7 +57,7 @@ todoRoutes.route("/delete/:id").post(function(req, res) {
       console.log(err);
       res.status(400).send("deleting todo failed");
     } else {
-      res.status(200).json({ todo: "todo deleted" });
+      res.status(200).json({ todo: "todo deleted successfully" });
     }
   });
 });
@@ -67,23 +67,15 @@ todoRoutes.route("/update/:id").post(function(req, res) {
     if (!todo) {
       res.status(404).send("todo not found");
     } else {
-      const {
-        todoDesc,
-        todoCompleted,
-        todoResponsible,
-        todoPriority
-      } = req.body;
-      todo.todoDesc = todoDesc;
-      todo.todoCompleted = todoCompleted;
-      todo.todoResponsible = todoResponsible;
-      todo.todoPriority = todoPriority;
-      todo.save((err, todo) => {
-        if (err) {
-          console.log(err);
-          res.status(400).send("updating todo failed");
-        } else {
-          res.status(200).json({ todo: "todo updated" });
-        }
+      todo.todo_description = req.body.todo_description;
+      todo.todo_responsible = req.body.todo_responsible;
+      todo.todo_priority = req.body.todo_priority;
+      todo.todo_completed = req.body.todo_completed;
+      todo.save().then(todo => {
+        res.json('Todo updated!');
+      })
+      .catch(err => {
+        res.status(400).send("Update not possible");
       });
     }
   });
