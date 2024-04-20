@@ -9,7 +9,7 @@ export default function TodosList() {
 
   function fetchTodos() {
     axios
-      .get("http://bore.pub:5473/todos")
+      .get("http://bore.pub:51618/todos")
       .then(res => {
         setTodos(res.data);
       })

@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const todoRoutes = express.Router();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5473;
 
 let Todo = require("./todo.model");
 
@@ -83,6 +83,6 @@ todoRoutes.route("/update/:id").post(function(req, res) {
 
 app.use("/todos", todoRoutes);
 
-app.listen(PORT, function() {
+app.listen(PORT, '0.0.0.0', function() {
   console.log("Server running on PORT: " + PORT);
 });
