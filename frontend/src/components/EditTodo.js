@@ -10,7 +10,7 @@ export default function EditTodo({ match: { params }, history }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/todos/${params.id}`)
+      .get(`http://bore.pub:5473/todos/${params.id}`)
       .then(res => {
         const {
           todoCompleted,
@@ -40,7 +40,7 @@ export default function EditTodo({ match: { params }, history }) {
     };
 
     axios
-      .post(`http://localhost:4000/todos/update/${params.id}`, newTodo)
+      .post(`http://bore.pub:5473/todos/update/${params.id}`, newTodo)
       .then(res => console.log(res.data))
       .then(() => history.push("/"));
   };
@@ -48,7 +48,7 @@ export default function EditTodo({ match: { params }, history }) {
   const deleteTodo = e => {
     e.preventDefault();
     axios
-      .post(`http://localhost:4000/todos/delete/${params.id}`)
+      .post(`http://bore.pub:5473/todos/delete/${params.id}`)
       .then(res => console.log(res.data))
       .then(() => history.push("/"));
   };
