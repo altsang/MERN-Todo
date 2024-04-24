@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"name":"mern-todo-frontend-ingress","namespace":"default"},"spec":{"rules":[{"http":{"paths":[{"backend":{"service":{"name":"mern-todo-frontend-service","port":{"number":80}}},"path":"/","pathType":"Prefix"},{"backend":{"service":{"name":"mern-todo-backend-service","port":{"number":5473}}},"path":"/api","pathType":"Prefix"}]}}]}}
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  creationTimestamp: "2024-04-24T16:18:41Z"
+  generation: 1
+  name: mern-todo-frontend-ingress
+  namespace: default
+  resourceVersion: "5192"
+  uid: d1a677cb-3a14-47d8-a306-f1830b0f47b7
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: mern-todo-frontend-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+      - backend:
+          service:
+            name: mern-todo-backend-service
+            port:
+              number: 5473
+        path: /api
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - ip: 172.210.124.34
