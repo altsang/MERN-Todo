@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: mern-todo-frontend
-        image: mern-todo-frontend:latest
+        image: altsang/mern-todo-frontend:latest
         ports:
         - containerPort: 3000
