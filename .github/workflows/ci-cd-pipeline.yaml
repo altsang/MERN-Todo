@@ -62,6 +62,9 @@ jobs:
               "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
             }
 
+      - name: Get AKS credentials
+        run: az aks get-credentials --name MernTodoCluster --resource-group MernTodoResourceGroup --file kubeconfig --overwrite-existing
+
       - name: Deploy to AKS
         run: |
           kubectl apply -f kubernetes/frontend-deployment.yaml
@@ -70,4 +73,4 @@ jobs:
           kubectl apply -f kubernetes/backend-deployment.yaml
           kubectl apply -f kubernetes/backend-service.yaml
         env:
-          KUBECONFIG: ${{ secrets.KUBECONFIG }}
+          KUBECONFIG: ${{ github.workspace }}/kubeconfig
