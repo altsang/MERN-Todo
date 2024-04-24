@@ -22,3 +22,5 @@ spec:
         env:
         - name: MONGO_URL
           value: "mongodb://mongodb-service:27017/todos"
+      imagePullSecrets:
+      - name: dockerhub-credentials
