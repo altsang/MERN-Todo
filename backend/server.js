@@ -15,7 +15,7 @@ const connectWithRetry = () => {
   mongoose.connect(process.env.MONGODB_URI || "mongodb://172.17.0.2:27017/todos", { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
     console.log("mongoDB connection successful");
   }).catch((err) => {
-    console.log("mongoDB connection unsuccessful, retry after 5 seconds.");
+    console.error("mongoDB connection unsuccessful", err);
     setTimeout(connectWithRetry, 5000);
   });
 };
