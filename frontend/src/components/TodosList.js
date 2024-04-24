@@ -11,7 +11,12 @@ export default function TodosList() {
     axios
       .get(process.env.REACT_APP_BACKEND_URL + "/todos")
       .then(res => {
-        setTodos(res.data);
+        if (Array.isArray(res.data)) {
+          setTodos(res.data);
+        } else {
+          console.error('Expected an array for todos, but received:', res.data);
+          setTodos([]); // Set to empty array if response is not an array
+        }
         setIsLoading(false);
       })
       .catch(err => {
