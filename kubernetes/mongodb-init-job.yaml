@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
       - name: mongodb-init
-        image: mongo
-        command: ["/bin/bash", "-c", "mongo mongodb-service:27017/todos --eval 'db.createCollection(\"todos\");'"]
+        image: mongo:latest
+        command: ["/bin/bash", "-c", "mongo --host mongodb-service --eval 'db.createCollection(\"todos\");'"]
       restartPolicy: Never
   backoffLimit: 4
