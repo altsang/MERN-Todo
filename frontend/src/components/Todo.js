@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 export default function Todo({ todo }) {
   return (
     <tr>
-      <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoDesc}</td>
-      <td className={todo.todoCompleted ? "completed" : ""}>
-        {todo.todoResponsible}
+      <td className={todo.completed ? "completed" : ""}>{todo.description}</td>
+      <td className={todo.completed ? "completed" : ""}>
+        {todo.responsible}
       </td>
-      <td className={todo.todoCompleted ? "completed" : ""}>
-        {todo.todoPriority}
+      <td className={todo.completed ? "completed" : ""}>
+        {todo.priority}
       </td>
       <td>
         <Link to={`/edit/${todo._id}`}>Edit</Link>

@@ -9,18 +9,19 @@ export default function TodosList() {
 
   function fetchTodos() {
     axios
-      .get("http://bore.pub:51618/todos")
+      .get("http://localhost:5473/todos")
       .then(res => {
         setTodos(res.data);
+        setIsLoading(false);
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   }
 
   useEffect(() => {
     fetchTodos();
-    setIsLoading(false);
   }, []);
 
   return isLoading ? (

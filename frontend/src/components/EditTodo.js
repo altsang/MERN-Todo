@@ -10,18 +10,23 @@ export default function EditTodo({ match: { params }, history }) {
 
   useEffect(() => {
     axios
-      .get(`http://bore.pub:5473/todos/${params.id}`)
+      .get(`http://bore.pub:23833/todos/${params.id}`)
       .then(res => {
+        console.log("Response data:", res.data); // Added for debugging
         const {
-          todoCompleted,
-          todoDesc,
-          todoPriority,
-          todoResponsible
+          description,
+          responsible,
+          priority,
+          completed
         } = res.data;
-        setTodoCompleted(todoCompleted);
-        setTodoDesc(todoDesc);
-        setTodoPriority(todoPriority);
-        setTodoResponsible(todoResponsible);
+        setTodoCompleted(completed);
+        setTodoDesc(description);
+        setTodoPriority(priority);
+        setTodoResponsible(responsible);
+        console.log("State after setting completed:", completed); // Added for debugging
+        console.log("State after setting description:", description); // Added for debugging
+        console.log("State after setting priority:", priority); // Added for debugging
+        console.log("State after setting responsible:", responsible); // Added for debugging
       })
       .then(() => setIsLoading(false))
       .catch(err => {
@@ -33,14 +38,14 @@ export default function EditTodo({ match: { params }, history }) {
     e.preventDefault();
 
     const newTodo = {
-      todoDesc,
-      todoResponsible,
-      todoPriority,
-      todoCompleted
+      description: todoDesc,
+      responsible: todoResponsible,
+      priority: todoPriority,
+      completed: todoCompleted
     };
 
     axios
-      .post(`http://bore.pub:5473/todos/update/${params.id}`, newTodo)
+      .post(`http://bore.pub:23833/todos/update/${params.id}`, newTodo)
       .then(res => console.log(res.data))
       .then(() => history.push("/"));
   };
@@ -48,7 +53,7 @@ export default function EditTodo({ match: { params }, history }) {
   const deleteTodo = e => {
     e.preventDefault();
     axios
-      .post(`http://bore.pub:5473/todos/delete/${params.id}`)
+      .post(`http://bore.pub:23833/todos/delete/${params.id}`)
       .then(res => console.log(res.data))
       .then(() => history.push("/"));
   };
