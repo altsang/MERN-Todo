@@ -20,8 +20,9 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: npm install
+        working-directory: ./frontend
 
       - name: Build frontend
         run: npm run build
