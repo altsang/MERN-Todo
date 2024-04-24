@@ -17,6 +17,7 @@ spec:
       containers:
       - name: mern-todo-frontend
         image: altsang/mern-todo-frontend:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:

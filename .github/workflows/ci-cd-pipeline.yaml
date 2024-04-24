@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - fix-cors-issue
   pull_request:
     branches:
       - master
