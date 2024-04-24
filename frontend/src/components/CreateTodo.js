@@ -18,7 +18,7 @@ export default function CreateTodo({ history }) {
     };
 
     axios
-      .post("http://bore.pub:23833/todos/add", newTodo)
+      .post(process.env.REACT_APP_BACKEND_URL + "/todos/add", newTodo)
       .then(res => console.log(res.data))
       .then(() => history.push("/"));
   };
