@@ -9,7 +9,7 @@ export default function TodosList() {
 
   function fetchTodos() {
     axios
-      .get("http://172.210.124.34/todos")
+      .get("http://mern-todo-backend-service:5473/todos")
       .then(res => {
         setTodos(res.data);
         setIsLoading(false);
