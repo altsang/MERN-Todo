@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongodb-init-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: mongodb-init
+        image: mongo
+        command: ["/bin/bash", "-c", "mongo mongodb-service:27017/todos --eval 'db.createCollection(\"todos\");'"]
+      restartPolicy: Never
+  backoffLimit: 4
