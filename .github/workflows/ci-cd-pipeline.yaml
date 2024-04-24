@@ -29,11 +29,24 @@ jobs:
         run: npm run build
         working-directory: ./frontend
 
-      - name: Build and push Docker image
+      - name: Build and push Docker frontend image
         run: |
           docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/mern-todo-frontend:latest ./frontend
           echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login --username ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
           docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mern-todo-frontend:latest
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Install backend dependencies
+        run: npm install
+        working-directory: ./backend
+
+      - name: Build and push Docker backend image
+        run: |
+          docker build -t ${{ secrets.DOCKER_HUB_USERNAME }}/mern-todo-backend:latest ./backend
+          echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login --username ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/mern-todo-backend:latest
         env:
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
           DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
@@ -54,5 +67,7 @@ jobs:
           kubectl apply -f kubernetes/frontend-deployment.yaml
           kubectl apply -f kubernetes/frontend-service.yaml
           kubectl apply -f kubernetes/frontend-ingress.yaml
+          kubectl apply -f kubernetes/backend-deployment.yaml
+          kubectl apply -f kubernetes/backend-service.yaml
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
