@@ -11,12 +11,16 @@ let Todo = require("./todo.model");
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://172.17.0.2:27017/todos", { useNewUrlParser: true, useUnifiedTopology: true });
-const connection = mongoose.connection;
+const connectWithRetry = () => {
+  mongoose.connect(process.env.MONGODB_URI || "mongodb://172.17.0.2:27017/todos", { useNewUrlParser: true, useUnifiedTopology: true }).then(() => {
+    console.log("mongoDB connection successful");
+  }).catch((err) => {
+    console.log("mongoDB connection unsuccessful, retry after 5 seconds.");
+    setTimeout(connectWithRetry, 5000);
+  });
+};
 
-connection.once("open", function() {
-  console.log("mongoDB connection successful");
-});
+connectWithRetry();
 
 todoRoutes.route("/").get(function(req, res) {
   Todo.find(function(err, todos) {
