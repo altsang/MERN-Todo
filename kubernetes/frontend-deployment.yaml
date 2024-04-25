@@ -19,7 +19,7 @@ spec:
         image: altsang/mern-todo-frontend:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 3000
+        - containerPort: 80
         env:
         - name: REACT_APP_BACKEND_URL
           value: "http://172.210.124.34/api"
