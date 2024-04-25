@@ -13,6 +13,10 @@ RUN yarn install --frozen-lockfile
 # Copy the rest of the frontend source code to the working directory in the container
 COPY . .
 
+# Set the environment variable for the backend URL
+ARG REACT_APP_BACKEND_URL
+ENV REACT_APP_BACKEND_URL $REACT_APP_BACKEND_URL
+
 # Build the React application
 RUN npm run build
 
