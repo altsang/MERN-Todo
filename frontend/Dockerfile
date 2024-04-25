@@ -20,7 +20,7 @@ RUN npm run build
 RUN npm install -g serve
 
 # Expose the port that the frontend server listens on
-EXPOSE 3000
+EXPOSE 80
 
-# Define the command to serve the React application using serve
-CMD ["serve", "-s", "build"]
+# Define the command to serve the React application using serve on port 80
+CMD ["serve", "-s", "build", "-l", "80"]
