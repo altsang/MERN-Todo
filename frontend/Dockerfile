@@ -22,5 +22,5 @@ RUN npm install -g serve
 # Expose the port that the frontend server listens on
 EXPOSE 80
 
-# Define the command to serve the React application using serve on port 80
-CMD ["serve", "-s", "build", "-l", "80"]
+# Define the command to serve the React application using serve on port 80 and listen on all interfaces
+CMD ["serve", "-s", "build", "-l", "tcp://0.0.0.0:80"]
