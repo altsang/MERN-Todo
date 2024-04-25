@@ -9,9 +9,12 @@ export default function TodosList() {
 
   function fetchTodos() {
     console.log('REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL);
+    const backendUrl = process.env.REACT_APP_BACKEND_URL + "/todos";
+    console.log('Fetching todos from:', backendUrl);
     axios
-      .get(process.env.REACT_APP_BACKEND_URL + "/todos")
+      .get(backendUrl)
       .then(res => {
+        console.log('Received response:', res);
         if (Array.isArray(res.data)) {
           setTodos(res.data);
         } else {
@@ -21,7 +24,7 @@ export default function TodosList() {
         setIsLoading(false);
       })
       .catch(err => {
-        console.error(err);
+        console.error('Error fetching todos:', err);
         setIsLoading(false);
       });
   }

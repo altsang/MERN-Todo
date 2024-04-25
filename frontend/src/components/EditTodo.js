@@ -10,7 +10,7 @@ export default function EditTodo({ match: { params }, history }) {
 
   useEffect(() => {
     axios
-      .get(`http://bore.pub:23833/todos/${params.id}`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/todos/${params.id}`)
       .then(res => {
         console.log("Response data:", res.data); // Added for debugging
         const {
@@ -45,7 +45,7 @@ export default function EditTodo({ match: { params }, history }) {
     };
 
     axios
-      .post(`http://bore.pub:23833/todos/update/${params.id}`, newTodo)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/todos/update/${params.id}`, newTodo)
       .then(res => console.log(res.data))
       .then(() => history.push("/"));
   };
@@ -53,7 +53,7 @@ export default function EditTodo({ match: { params }, history }) {
   const deleteTodo = e => {
     e.preventDefault();
     axios
-      .post(`http://bore.pub:23833/todos/delete/${params.id}`)
+      .post(`${process.env.REACT_APP_BACKEND_URL}/todos/delete/${params.id}`)
       .then(res => console.log(res.data))
       .then(() => history.push("/"));
   };
