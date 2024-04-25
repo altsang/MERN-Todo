@@ -9,7 +9,7 @@ export default function TodosList() {
 
   function fetchTodos() {
     console.log('REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL);
-    const backendUrl = process.env.REACT_APP_BACKEND_URL + "/todos";
+    const backendUrl = process.env.REACT_APP_BACKEND_URL + "/api/todos";
     console.log('Fetching todos from:', backendUrl);
     axios
       .get(backendUrl)
