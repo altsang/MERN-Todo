@@ -8,6 +8,7 @@ export default function TodosList() {
   const [isLoading, setIsLoading] = useState(true);
 
   function fetchTodos() {
+    console.log('REACT_APP_BACKEND_URL:', process.env.REACT_APP_BACKEND_URL);
     axios
       .get(process.env.REACT_APP_BACKEND_URL + "/todos")
       .then(res => {
@@ -20,7 +21,7 @@ export default function TodosList() {
         setIsLoading(false);
       })
       .catch(err => {
-        console.log(err);
+        console.error(err);
         setIsLoading(false);
       });
   }
