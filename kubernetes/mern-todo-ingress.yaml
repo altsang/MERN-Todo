@@ -24,3 +24,7 @@ spec:
             name: mern-todo-backend-service
             port:
               number: 5473
+status:
+  loadBalancer:
+    ingress:
+    - ip: 137.117.82.166
