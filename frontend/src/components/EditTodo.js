@@ -41,16 +41,30 @@ export default function EditTodo({ match: { params }, history }) {
 
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/todos/update/${params.id}`, newTodo)
-      .then(res => console.log(res.data))
-      .then(() => history.push("/"));
+      .then(res => {
+        console.log(res.data);
+        localStorage.setItem('todo_updated', 'true');
+        history.push("/");
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const deleteTodo = e => {
     e.preventDefault();
     axios
       .post(`${process.env.REACT_APP_BACKEND_URL}/todos/delete/${params.id}`)
-      .then(res => console.log(res.data))
-      .then(() => history.push("/"));
+      .then(res => {
+        console.log(res.data);
+        // Dispatch the custom event 'todosUpdated' to signal that todos have been updated
+        const event = new Event('todosUpdated');
+        document.dispatchEvent(event);
+        history.push("/");
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return !isLoading ? (

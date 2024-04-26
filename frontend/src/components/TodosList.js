@@ -22,6 +22,19 @@ export default function TodosList() {
   useEffect(() => {
     fetchTodos();
     setIsLoading(false);
+
+    // Function to call when todos are updated
+    const onTodosUpdate = () => {
+      fetchTodos();
+    };
+
+    // Subscribe to the custom event 'todosUpdated'
+    document.addEventListener('todosUpdated', onTodosUpdate);
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('todosUpdated', onTodosUpdate);
+    };
   }, []);
 
   return isLoading ? (
