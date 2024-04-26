@@ -11,7 +11,7 @@ export default function TodosList() {
     try {
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
       if (isMountedRef.current && Array.isArray(res.data)) {
-        setTodos(res.data); // Set the state directly with the fetched data
+        setTodos([...res.data]); // Spread into a new array to ensure a new reference
         setIsLoading(false);
       } else {
         console.error('Error: Fetched data is not an array', res.data);
