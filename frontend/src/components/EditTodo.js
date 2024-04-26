@@ -43,6 +43,9 @@ export default function EditTodo({ match: { params }, history }) {
       .post(`${process.env.REACT_APP_BACKEND_URL}/todos/update/${params.id}`, newTodo)
       .then(res => {
         console.log(res.data);
+        // Dispatch the custom event 'todosUpdated' to signal that todos have been updated
+        const event = new Event('todosUpdated');
+        document.dispatchEvent(event);
         localStorage.setItem('todo_updated', 'true');
         history.push("/");
       })
