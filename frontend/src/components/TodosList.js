@@ -37,8 +37,10 @@ export default function TodosList() {
 
   useEffect(() => {
     const onTodosUpdate = async () => {
+      console.log('todosUpdated event received'); // Added for debugging
       if (isMountedRef.current) {
         const fetchedTodos = await fetchTodos();
+        console.log('Fetched todos after update:', fetchedTodos); // Added for debugging
         if (isMountedRef.current) {
           setTodos(fetchedTodos);
         }
