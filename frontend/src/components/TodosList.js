@@ -15,6 +15,7 @@ export default function TodosList() {
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
       console.log('Fetched todos:', res.data); // Log fetched todos
       if (isMountedRef.current && Array.isArray(res.data) && res.data.length) {
+        console.log('isMountedRef is currently:', isMountedRef.current); // Log the current state of isMountedRef
         setTodos(res.data);
         setIsLoading(false);
       } else {
@@ -27,9 +28,11 @@ export default function TodosList() {
 
   useEffect(() => {
     isMountedRef.current = true;
+    console.log('Component mounted, isMountedRef:', isMountedRef.current); // Log the mounting of the component
     fetchTodos();
     return () => {
       isMountedRef.current = false;
+      console.log('Component unmounted, isMountedRef:', isMountedRef.current); // Log the unmounting of the component
     };
   }, []);
 
@@ -38,7 +41,10 @@ export default function TodosList() {
     const onTodosUpdate = () => {
       console.log('Todos updated event received. Refetching todos.'); // Log event received
       if (isMountedRef.current) {
+        console.log('isMountedRef is currently:', isMountedRef.current); // Log the current state of isMountedRef
         fetchTodos(); // Fetch todos again to update the state
+      } else {
+        console.log('isMountedRef is currently false, not fetching todos.'); // Log when isMountedRef is false
       }
     };
 
@@ -53,6 +59,7 @@ export default function TodosList() {
   }, []); // Removed todos as a dependency to prevent unnecessary re-subscriptions
 
   console.log('Rendering Todos List...'); // Log before rendering the Todos List
+  console.log('Current todos state:', todos); // Log the current state of todos
 
   const renderedTodos = todos.map(todo => {
     return (
