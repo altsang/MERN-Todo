@@ -13,7 +13,10 @@ export default function TodosList() {
       .then(res => {
         if (isMountedRef.current && Array.isArray(res.data)) {
           console.log('Fetched todos:', res.data);
-          setTodos([...res.data]); // Spread into a new array to ensure a new reference
+          // Only update if the fetched todos are different from the current state
+          if (JSON.stringify(todos) !== JSON.stringify(res.data)) {
+            setTodos([...res.data]); // Spread into a new array to ensure a new reference
+          }
           setIsLoading(false);
         } else {
           console.error('Error: Fetched data is not an array', res.data);
@@ -42,7 +45,7 @@ export default function TodosList() {
       isMountedRef.current = false;
       document.removeEventListener('todosUpdated', handleTodosUpdated);
     };
-  }, [todos]); // Added todos as a dependency
+  }, []); // Removed todos as a dependency
 
   console.log('Todos state at render:', todos); // Log todos state at render for debugging
 
