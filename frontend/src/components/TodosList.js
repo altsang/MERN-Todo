@@ -38,6 +38,7 @@ export default function TodosList() {
   useEffect(() => {
     const onTodosUpdate = async () => {
       console.log('todosUpdated event received'); // Added for debugging
+      console.log('isMountedRef.current at event receive:', isMountedRef.current); // Additional debugging
       if (isMountedRef.current) {
         const fetchedTodos = await fetchTodos();
         console.log('Fetched todos after update:', fetchedTodos); // Added for debugging
@@ -48,9 +49,11 @@ export default function TodosList() {
     };
 
     document.addEventListener('todosUpdated', onTodosUpdate);
+    console.log('Event listener for todosUpdated added'); // Additional debugging
 
     return () => {
       document.removeEventListener('todosUpdated', onTodosUpdate);
+      console.log('Event listener for todosUpdated removed'); // Additional debugging
     };
   }, []);
 
