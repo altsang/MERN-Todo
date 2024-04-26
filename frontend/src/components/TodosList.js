@@ -16,10 +16,13 @@ export default function TodosList() {
           // Only update if the fetched todos are different from the current state
           if (JSON.stringify(todos) !== JSON.stringify(res.data)) {
             setTodos(prevTodos => {
+              console.log('Previous todos state:', prevTodos); // Added for debugging
               // Check if the fetched todos are different from the previous state
               if (JSON.stringify(prevTodos) !== JSON.stringify(res.data)) {
+                console.log('New todos state:', res.data); // Added for debugging
                 return [...res.data]; // Spread into a new array to ensure a new reference
               }
+              console.log('Todos state unchanged.'); // Added for debugging
               return prevTodos; // Return previous state if todos are the same
             });
           }
