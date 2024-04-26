@@ -15,8 +15,10 @@ export default function TodosList() {
       console.log('Fetched todos:', res.data); // Log fetched todos
       if (Array.isArray(res.data) && res.data.length) {
         console.log('Before setTodos call:', todos); // Log the state before setTodos
-        setTodos(res.data, () => {
-          console.log('After setTodos call:', todos); // Log the state after setTodos
+        setTodos(prevTodos => {
+          console.log('Previous todos state:', prevTodos); // Log the previous state
+          console.log('New todos from fetch:', res.data); // Log new todos from fetch
+          return res.data;
         });
       } else {
         console.error('Error: Fetched data is not an array or is empty', res.data);
