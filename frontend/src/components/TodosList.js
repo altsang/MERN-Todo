@@ -15,13 +15,8 @@ export default function TodosList() {
       console.log('Fetched todos:', res.data); // Log fetched todos
       if (Array.isArray(res.data) && res.data.length) {
         console.log('Before setTodos call:', todos); // Log the state before setTodos
-        setTodos(prevTodos => {
-          console.log('Previous todos state:', prevTodos); // Log the previous state
-          console.log('New todos from fetch:', res.data); // Log new todos from fetch
-          return res.data;
-        }, () => {
-          console.log('setTodos callback - Todos state updated:', todos); // Log the state after setTodos
-        });
+        setTodos(res.data);
+        console.log('Todos state updated:', res.data); // Log the state after setTodos
       } else {
         console.error('Error: Fetched data is not an array or is empty', res.data);
       }
@@ -54,6 +49,24 @@ export default function TodosList() {
     console.log('Todos state updated:', todos);
   }, [todos]); // Add todos as a dependency to this useEffect
 
+  console.log('Rendering Todos List...'); // Log before rendering the Todos List
+
+  const renderedTodos = todos.map(todo => {
+    return (
+      <tr key={todo._id}>
+        <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoDesc}</td>
+        <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoResponsible}</td>
+        <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoPriority}</td>
+        <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoCompleted ? "Yes" : "No"}</td>
+        <td>
+          <Link to={`/edit/${todo._id}`}>Edit</Link>
+        </td>
+      </tr>
+    );
+  });
+
+  console.log('Todos List rendered', renderedTodos); // Log after rendering the Todos List
+
   return isLoading ? (
     <div>Loading...</div>
   ) : todos.length ? (
@@ -70,19 +83,7 @@ export default function TodosList() {
           </tr>
         </thead>
         <tbody>
-          {todos.map(todo => {
-            return (
-              <tr key={todo._id}>
-                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoDesc}</td>
-                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoResponsible}</td>
-                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoPriority}</td>
-                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoCompleted ? "Yes" : "No"}</td>
-                <td>
-                  <Link to={`/edit/${todo._id}`}>Edit</Link>
-                </td>
-              </tr>
-            );
-          })}
+          {renderedTodos}
         </tbody>
       </table>
     </div>
