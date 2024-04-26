@@ -17,16 +17,19 @@ export default function TodosList() {
         console.log('Before setTodos call:', todos); // Log the state before setTodos
         setTodos(res.data);
         console.log('Todos state updated:', res.data); // Log the state after setTodos
+        setIsLoading(false); // Set loading to false after todos are set
       } else {
         console.error('Error: Fetched data is not an array or is empty', res.data);
+        setIsLoading(false); // Set loading to false even if there is an error
       }
     } catch (err) {
       console.log('Error fetching todos:', err); // Log error fetching todos
+      setIsLoading(false); // Set loading to false in case of error
     }
   }
 
   useEffect(() => {
-    fetchTodos().then(() => setIsLoading(false));
+    fetchTodos();
 
     // Function to call when todos are updated
     const onTodosUpdate = () => {
