@@ -43,7 +43,7 @@ export default function TodosList() {
       console.log('Cleaning up todosUpdated event listener.'); // Log cleanup
       document.removeEventListener('todosUpdated', onTodosUpdate);
     };
-  }, []);
+  }, [todos]); // Add todos as a dependency to re-render when todos state updates
 
   console.log('Rendering Todos List...'); // Log before rendering the Todos List
 
