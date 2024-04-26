@@ -10,10 +10,10 @@ export default function TodosList() {
   async function fetchTodos() {
     try {
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
-      if (isMountedRef.current && Array.isArray(res.data) && res.data.length) {
+      if (isMountedRef.current && Array.isArray(res.data)) {
         return res.data; // Return the fetched data instead of setting the state here
       } else {
-        console.error('Error: Fetched data is not an array or is empty', res.data);
+        console.error('Error: Fetched data is not an array', res.data);
         return []; // Return an empty array in case of error
       }
     } catch (err) {
@@ -39,7 +39,7 @@ export default function TodosList() {
     const onTodosUpdate = async () => {
       if (isMountedRef.current) {
         const fetchedTodos = await fetchTodos();
-        if (isMountedRef.current && fetchedTodos.length > 0) {
+        if (isMountedRef.current) {
           setTodos(fetchedTodos);
         }
       }
