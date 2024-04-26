@@ -65,6 +65,14 @@ todoRoutes.route("/update/:id").put(function(req, res) {
 
       todo.save().then(todo => {
         console.log('Todo updated in database:', todo);
+        // Additional logging to confirm the updated state of the todo item
+        console.log('Updated todo item:', {
+          id: todo._id,
+          description: todo.todo_description,
+          responsible: todo.todo_responsible,
+          priority: todo.todo_priority,
+          completed: todo.todo_completed
+        });
         res.json(todo); // Send back the updated todo item
       })
       .catch(err => {
