@@ -12,10 +12,11 @@ export default function TodosList() {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/todos`)
       .then(res => {
+        console.log('Fetched todos:', res.data); // Log fetched todos
         setTodos(res.data);
       })
       .catch(err => {
-        console.log(err);
+        console.log('Error fetching todos:', err); // Log error fetching todos
       });
   }
 
@@ -25,6 +26,7 @@ export default function TodosList() {
 
     // Function to call when todos are updated
     const onTodosUpdate = () => {
+      console.log('Todos updated event received. Refetching todos.'); // Log event received
       fetchTodos();
     };
 
@@ -33,6 +35,7 @@ export default function TodosList() {
 
     // Cleanup the event listener
     return () => {
+      console.log('Cleaning up todosUpdated event listener.'); // Log cleanup
       document.removeEventListener('todosUpdated', onTodosUpdate);
     };
   }, []);
