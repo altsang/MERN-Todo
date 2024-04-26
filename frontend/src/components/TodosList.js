@@ -24,8 +24,19 @@ export default function TodosList() {
   useEffect(() => {
     isMountedRef.current = true;
     fetchTodos();
+
+    // Set up event listener for 'todosUpdated' event
+    const handleTodosUpdated = () => {
+      if (isMountedRef.current) {
+        fetchTodos();
+      }
+    };
+
+    document.addEventListener('todosUpdated', handleTodosUpdated);
+
     return () => {
       isMountedRef.current = false;
+      document.removeEventListener('todosUpdated', handleTodosUpdated);
     };
   }, []);
 
