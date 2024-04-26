@@ -56,17 +56,19 @@ export default function EditTodo({ match: { params }, history }) {
 
   const deleteTodo = e => {
     e.preventDefault();
+    console.log(`Attempting to delete todo with id: ${params.id}`); // Log attempt to delete
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/todos/delete/${params.id}`)
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/todos/delete/${params.id}`)
       .then(res => {
-        console.log(res.data);
+        console.log(`Todo with id: ${params.id} deleted successfully. Response:`, res.data); // Log successful delete
         // Dispatch the custom event 'todosUpdated' to signal that todos have been updated
         const event = new Event('todosUpdated');
         document.dispatchEvent(event);
+        console.log(`Dispatched 'todosUpdated' event after delete.`); // Log event dispatch
         history.push("/");
       })
       .catch(err => {
-        console.log(err);
+        console.log(`Error deleting todo with id: ${params.id}. Error:`, err); // Log error
       });
   };
 
