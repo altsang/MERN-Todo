@@ -34,12 +34,23 @@ export default function TodosList() {
             <th>Description</th>
             <th>Responsiblity</th>
             <th>Priority</th>
+            <th>Completed</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {todos.map(todo => {
-            return <Todo key={todo._id} todo={todo} />;
+            return (
+              <tr key={todo._id}>
+                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoDesc}</td>
+                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoResponsible}</td>
+                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoPriority}</td>
+                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoCompleted ? "Yes" : "No"}</td>
+                <td>
+                  <Link to={`/edit/${todo._id}`}>Edit</Link>
+                </td>
+              </tr>
+            );
           })}
         </tbody>
       </table>
