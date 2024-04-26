@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mern-todo-mongo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mern-todo-mongo
+  template:
+    metadata:
+      labels:
+        app: mern-todo-mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:latest
+        ports:
+        - containerPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mern-todo-mongo
+spec:
+  selector:
+    app: mern-todo-mongo
+  ports:
+  - protocol: TCP
+    port: 27017
+    targetPort: 27017
+  type: ClusterIP
