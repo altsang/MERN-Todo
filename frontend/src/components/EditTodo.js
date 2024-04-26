@@ -10,7 +10,7 @@ export default function EditTodo({ match: { params }, history }) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/todos/${params.id}`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}/todos/${params.id}`)
       .then(res => {
         const {
           todoCompleted,
@@ -40,17 +40,34 @@ export default function EditTodo({ match: { params }, history }) {
     };
 
     axios
-      .post(`http://localhost:4000/todos/update/${params.id}`, newTodo)
-      .then(res => console.log(res.data))
-      .then(() => history.push("/"));
+      .post(`${process.env.REACT_APP_BACKEND_URL}/todos/update/${params.id}`, newTodo)
+      .then(res => {
+        console.log(res.data);
+        // Dispatch the custom event 'todosUpdated' to signal that todos have been updated
+        const event = new Event('todosUpdated');
+        document.dispatchEvent(event);
+        localStorage.setItem('todo_updated', 'true');
+        history.push("/");
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const deleteTodo = e => {
     e.preventDefault();
     axios
-      .post(`http://localhost:4000/todos/delete/${params.id}`)
-      .then(res => console.log(res.data))
-      .then(() => history.push("/"));
+      .post(`${process.env.REACT_APP_BACKEND_URL}/todos/delete/${params.id}`)
+      .then(res => {
+        console.log(res.data);
+        // Dispatch the custom event 'todosUpdated' to signal that todos have been updated
+        const event = new Event('todosUpdated');
+        document.dispatchEvent(event);
+        history.push("/");
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return !isLoading ? (

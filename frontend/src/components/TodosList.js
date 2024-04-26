@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import Todo from "./Todo";
 
@@ -9,7 +10,7 @@ export default function TodosList() {
 
   function fetchTodos() {
     axios
-      .get("http://localhost:4000/todos")
+      .get(`${process.env.REACT_APP_BACKEND_URL}/todos`)
       .then(res => {
         setTodos(res.data);
       })
@@ -21,6 +22,19 @@ export default function TodosList() {
   useEffect(() => {
     fetchTodos();
     setIsLoading(false);
+
+    // Function to call when todos are updated
+    const onTodosUpdate = () => {
+      fetchTodos();
+    };
+
+    // Subscribe to the custom event 'todosUpdated'
+    document.addEventListener('todosUpdated', onTodosUpdate);
+
+    // Cleanup the event listener
+    return () => {
+      document.removeEventListener('todosUpdated', onTodosUpdate);
+    };
   }, []);
 
   return isLoading ? (
@@ -34,12 +48,23 @@ export default function TodosList() {
             <th>Description</th>
             <th>Responsiblity</th>
             <th>Priority</th>
+            <th>Completed</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {todos.map(todo => {
-            return <Todo key={todo._id} todo={todo} />;
+            return (
+              <tr key={todo._id}>
+                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoDesc}</td>
+                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoResponsible}</td>
+                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoPriority}</td>
+                <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoCompleted ? "Yes" : "No"}</td>
+                <td>
+                  <Link to={`/edit/${todo._id}`}>Edit</Link>
+                </td>
+              </tr>
+            );
           })}
         </tbody>
       </table>
