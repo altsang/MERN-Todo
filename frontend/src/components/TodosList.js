@@ -51,6 +51,7 @@ export default function TodosList() {
         if (isMountedRef.current && fetchedTodos.length > 0) {
           console.log('Setting todos state with fetched data after update:', fetchedTodos);
           setTodos(fetchedTodos);
+          console.log('Todos state after update:', todos); // Log the state of todos after it is supposed to be updated
         } else {
           console.log('Received empty todos array after update, not updating state.');
         }
@@ -59,6 +60,7 @@ export default function TodosList() {
       }
     };
 
+    console.log('Current todos state before todosUpdated event:', todos); // Log the current state of todos before the event is dispatched
     document.addEventListener('todosUpdated', onTodosUpdate);
 
     return () => {
