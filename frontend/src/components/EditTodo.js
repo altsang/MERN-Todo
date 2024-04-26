@@ -32,6 +32,8 @@ export default function EditTodo({ match: { params }, history }) {
   const onSubmit = e => {
     e.preventDefault();
 
+    console.log(`Before update - Completed status: ${todoCompleted}`); // Log the completed status before sending the request
+
     const newTodo = {
       todoDesc,
       todoResponsible,
@@ -42,17 +44,17 @@ export default function EditTodo({ match: { params }, history }) {
     axios
       .put(`${process.env.REACT_APP_BACKEND_URL}/todos/update/${params.id}`, newTodo)
       .then(res => {
-        console.log(res.data);
+        console.log(`Update response: `, res.data); // Log the response from the backend
         console.log('Dispatching todosUpdated event...');
         setTimeout(() => {
           const event = new Event('todosUpdated');
           document.dispatchEvent(event);
           localStorage.setItem('todo_updated', 'true');
           history.push("/");
-        }, 2000); // Increased delay to ensure frontend is ready
+        }, 5000); // Increased delay to 5 seconds to ensure backend has processed the update
       })
       .catch(err => {
-        console.log(err);
+        console.error(`Error during update: `, err); // Log any errors during the update
       });
   };
 
