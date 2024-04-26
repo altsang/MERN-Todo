@@ -47,7 +47,9 @@ export default function EditTodo({ match: { params }, history }) {
         const event = new Event('todosUpdated');
         document.dispatchEvent(event);
         localStorage.setItem('todo_updated', 'true');
-        history.push("/");
+        setTimeout(() => {
+          history.push("/");
+        }, 500);
       })
       .catch(err => {
         console.log(err);
