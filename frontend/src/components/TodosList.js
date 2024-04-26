@@ -50,7 +50,10 @@ export default function TodosList() {
         const fetchedTodos = await fetchTodos();
         if (isMountedRef.current && fetchedTodos.length > 0) {
           console.log('Setting todos state with fetched data after update:', fetchedTodos);
-          setTodos(fetchedTodos);
+          setTodos(prevTodos => {
+            console.log('Previous todos state:', prevTodos);
+            return fetchedTodos;
+          });
           console.log('Todos state after update:', todos); // Log the state of todos after it is supposed to be updated
         } else {
           console.log('Received empty todos array after update, not updating state.');
