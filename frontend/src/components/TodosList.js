@@ -6,6 +6,7 @@ import Todo from "./Todo";
 
 export default function TodosList() {
   const [todos, setTodos] = useState([]);
+  const [fetchedTodos, setFetchedTodos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   async function fetchTodos() {
@@ -14,23 +15,29 @@ export default function TodosList() {
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
       console.log('Fetched todos:', res.data); // Log fetched todos
       if (Array.isArray(res.data) && res.data.length) {
-        console.log('Before setTodos call:', todos); // Log the state before setTodos
-        setTodos(res.data);
-        console.log('Todos state updated:', res.data); // Log the state after setTodos
-        setIsLoading(false); // Set loading to false after todos are set
+        console.log('Before setFetchedTodos call:', fetchedTodos); // Log the state before setFetchedTodos
+        setFetchedTodos(res.data);
+        console.log('Fetched todos state updated:', res.data); // Log the state after setFetchedTodos
       } else {
         console.error('Error: Fetched data is not an array or is empty', res.data);
-        setIsLoading(false); // Set loading to false even if there is an error
       }
     } catch (err) {
       console.log('Error fetching todos:', err); // Log error fetching todos
-      setIsLoading(false); // Set loading to false in case of error
     }
   }
 
   useEffect(() => {
     fetchTodos();
+  }, []);
 
+  useEffect(() => {
+    if (fetchedTodos.length) {
+      setTodos(fetchedTodos);
+      setIsLoading(false);
+    }
+  }, [fetchedTodos]);
+
+  useEffect(() => {
     // Function to call when todos are updated
     const onTodosUpdate = () => {
       console.log('Todos updated event received. Refetching todos.'); // Log event received
