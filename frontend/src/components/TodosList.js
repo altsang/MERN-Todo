@@ -43,16 +43,15 @@ export default function TodosList() {
   }, []);
 
   useEffect(() => {
-    const onTodosUpdate = () => {
+    const onTodosUpdate = async () => {
       console.log('Todos updated event received. Refetching todos.');
       if (isMountedRef.current) {
         console.log('isMountedRef is currently:', isMountedRef.current);
-        fetchTodos().then(fetchedTodos => {
-          if (isMountedRef.current) {
-            console.log('Setting todos state with fetched data after update:', fetchedTodos);
-            setTodos(fetchedTodos);
-          }
-        });
+        const fetchedTodos = await fetchTodos();
+        if (isMountedRef.current) {
+          console.log('Setting todos state with fetched data after update:', fetchedTodos);
+          setTodos(fetchedTodos);
+        }
       } else {
         console.log('isMountedRef is currently false, not fetching todos.');
       }
