@@ -42,7 +42,7 @@ export default function TodosList() {
       isMountedRef.current = false;
       document.removeEventListener('todosUpdated', handleTodosUpdated);
     };
-  }, []); // Removed todos as a dependency
+  }, [todos]); // Added todos as a dependency
 
   console.log('Todos state at render:', todos); // Log todos state at render for debugging
 
