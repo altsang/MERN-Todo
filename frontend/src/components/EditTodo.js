@@ -50,7 +50,7 @@ export default function EditTodo({ match: { params }, history }) {
           document.dispatchEvent(event);
           localStorage.setItem('todo_updated', 'true');
           history.push("/");
-        }, 500); // Delay of 500 milliseconds
+        }, 2000); // Increased delay to 2000 milliseconds
       })
       .catch(err => {
         console.log(err);
