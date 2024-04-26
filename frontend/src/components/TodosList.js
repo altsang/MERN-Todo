@@ -7,20 +7,21 @@ export default function TodosList() {
   const [isLoading, setIsLoading] = useState(true);
   const isMountedRef = useRef(null);
 
-  async function fetchTodos() {
+  function fetchTodos() {
     console.log('Fetching todos...');
-    try {
-      const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
-      if (isMountedRef.current && Array.isArray(res.data)) {
-        console.log('Fetched todos:', res.data);
-        setTodos([...res.data]); // Spread into a new array to ensure a new reference
-        setIsLoading(false);
-      } else {
-        console.error('Error: Fetched data is not an array', res.data);
-      }
-    } catch (err) {
-      console.error('Error fetching todos:', err);
-    }
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`)
+      .then(res => {
+        if (isMountedRef.current && Array.isArray(res.data)) {
+          console.log('Fetched todos:', res.data);
+          setTodos([...res.data]); // Spread into a new array to ensure a new reference
+          setIsLoading(false);
+        } else {
+          console.error('Error: Fetched data is not an array', res.data);
+        }
+      })
+      .catch(err => {
+        console.error('Error fetching todos:', err);
+      });
   }
 
   useEffect(() => {
