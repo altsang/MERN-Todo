@@ -58,20 +58,20 @@ todoRoutes.route("/update/:id").put(function(req, res) {
     else {
       console.log("Received update for Todo ID:", req.params.id);
       console.log("Update data:", req.body);
-      todo.todo_description = req.body.todo_description;
-      todo.todo_responsible = req.body.todo_responsible;
-      todo.todo_priority = req.body.todo_priority;
-      todo.todo_completed = req.body.todo_completed === 'true' || req.body.todo_completed === true;
+      todo.todoDesc = req.body.todoDesc;
+      todo.todoResponsible = req.body.todoResponsible;
+      todo.todoPriority = req.body.todoPriority;
+      todo.todoCompleted = req.body.todoCompleted === 'true' || req.body.todoCompleted === true;
 
       todo.save().then(todo => {
         console.log('Todo updated in database:', todo);
         // Additional logging to confirm the updated state of the todo item
         console.log('Updated todo item:', {
           id: todo._id,
-          description: todo.todo_description,
-          responsible: todo.todo_responsible,
-          priority: todo.todo_priority,
-          completed: todo.todo_completed
+          description: todo.todoDesc,
+          responsible: todo.todoResponsible,
+          priority: todo.todoPriority,
+          completed: todo.todoCompleted
         });
         res.json(todo); // Send back the updated todo item
       })
