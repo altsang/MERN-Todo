@@ -11,55 +11,23 @@ export default function TodosList() {
     try {
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
       if (isMountedRef.current && Array.isArray(res.data)) {
-        return res.data; // Return the fetched data instead of setting the state here
+        setTodos(res.data); // Set the state directly with the fetched data
+        setIsLoading(false);
       } else {
         console.error('Error: Fetched data is not an array', res.data);
-        return []; // Return an empty array in case of error
       }
     } catch (err) {
       console.error('Error fetching todos:', err);
-      return []; // Return an empty array in case of error
     }
   }
 
   useEffect(() => {
     isMountedRef.current = true;
-    fetchTodos().then(fetchedTodos => {
-      if (isMountedRef.current) {
-        console.log('Current todos state before update:', todos); // Log current state before update
-        setTodos([...fetchedTodos]); // Spread into a new array to ensure a new reference
-        console.log('setTodos called with fetched todos:', fetchedTodos); // Log that setTodos was called
-        setIsLoading(false);
-      }
-    });
+    fetchTodos();
     return () => {
       isMountedRef.current = false;
     };
   }, []);
-
-  useEffect(() => {
-    const onTodosUpdate = async () => {
-      console.log('todosUpdated event received'); // Added for debugging
-      console.log('isMountedRef.current at event receive:', isMountedRef.current); // Additional debugging
-      if (isMountedRef.current) {
-        const fetchedTodos = await fetchTodos();
-        console.log('Fetched todos after update:', fetchedTodos); // Added for debugging
-        if (isMountedRef.current) {
-          console.log('Current todos state before update:', todos); // Log current state before update
-          setTodos(prevTodos => fetchedTodos); // Use functional update to ensure the state is updated based on the previous state
-          console.log('setTodos called with fetched todos:', fetchedTodos); // Log that setTodos was called
-        }
-      }
-    };
-
-    document.addEventListener('todosUpdated', onTodosUpdate);
-    console.log('Event listener for todosUpdated added'); // Additional debugging
-
-    return () => {
-      document.removeEventListener('todosUpdated', onTodosUpdate);
-      console.log('Event listener for todosUpdated removed'); // Additional debugging
-    };
-  }, [todos]); // Add todos as a dependency to the useEffect hook
 
   console.log('Todos state at render:', todos); // Log todos state at render for debugging
 
