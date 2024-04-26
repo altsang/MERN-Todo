@@ -48,9 +48,11 @@ export default function TodosList() {
       if (isMountedRef.current) {
         console.log('isMountedRef is currently:', isMountedRef.current);
         const fetchedTodos = await fetchTodos();
-        if (isMountedRef.current && JSON.stringify(fetchedTodos) !== JSON.stringify(todos)) {
+        if (isMountedRef.current && fetchedTodos.length > 0) {
           console.log('Setting todos state with fetched data after update:', fetchedTodos);
           setTodos(fetchedTodos);
+        } else {
+          console.log('Received empty todos array after update, not updating state.');
         }
       } else {
         console.log('isMountedRef is currently false, not fetching todos.');
