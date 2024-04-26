@@ -2,64 +2,70 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-import Todo from "./Todo";
-
 export default function TodosList() {
   const [todos, setTodos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const isMountedRef = useRef(null);
 
   async function fetchTodos() {
-    console.log('Fetching todos...'); // Log the start of fetching todos
+    console.log('Fetching todos...');
     try {
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
-      console.log('Fetched todos:', res.data); // Log fetched todos
+      console.log('Fetched todos:', res.data);
       if (isMountedRef.current && Array.isArray(res.data) && res.data.length) {
-        console.log('isMountedRef is currently:', isMountedRef.current); // Log the current state of isMountedRef
-        setTodos(res.data);
-        setIsLoading(false);
+        console.log('isMountedRef is currently:', isMountedRef.current);
+        console.log('Before setTodos, current todos state:', todos);
+        return res.data; // Return the fetched data instead of setting the state here
       } else {
         console.error('Error: Fetched data is not an array or is empty', res.data);
+        return []; // Return an empty array in case of error
       }
     } catch (err) {
-      console.log('Error fetching todos:', err); // Log error fetching todos
+      console.log('Error fetching todos:', err);
+      return []; // Return an empty array in case of error
     }
   }
 
   useEffect(() => {
     isMountedRef.current = true;
-    console.log('Component mounted, isMountedRef:', isMountedRef.current); // Log the mounting of the component
-    fetchTodos();
+    console.log('Component mounted, isMountedRef:', isMountedRef.current);
+    fetchTodos().then(fetchedTodos => {
+      if (isMountedRef.current) {
+        setTodos(fetchedTodos);
+        setIsLoading(false);
+      }
+    });
     return () => {
       isMountedRef.current = false;
-      console.log('Component unmounted, isMountedRef:', isMountedRef.current); // Log the unmounting of the component
+      console.log('Component unmounted, isMountedRef:', isMountedRef.current);
     };
   }, []);
 
   useEffect(() => {
-    // Function to call when todos are updated
     const onTodosUpdate = () => {
-      console.log('Todos updated event received. Refetching todos.'); // Log event received
+      console.log('Todos updated event received. Refetching todos.');
       if (isMountedRef.current) {
-        console.log('isMountedRef is currently:', isMountedRef.current); // Log the current state of isMountedRef
-        fetchTodos(); // Fetch todos again to update the state
+        console.log('isMountedRef is currently:', isMountedRef.current);
+        fetchTodos().then(fetchedTodos => {
+          if (isMountedRef.current) {
+            setTodos(fetchedTodos);
+          }
+        });
       } else {
-        console.log('isMountedRef is currently false, not fetching todos.'); // Log when isMountedRef is false
+        console.log('isMountedRef is currently false, not fetching todos.');
       }
     };
 
-    // Subscribe to the custom event 'todosUpdated'
     document.addEventListener('todosUpdated', onTodosUpdate);
 
-    // Cleanup the event listener
     return () => {
-      console.log('Cleaning up todosUpdated event listener.'); // Log cleanup
+      console.log('Cleaning up todosUpdated event listener.');
       document.removeEventListener('todosUpdated', onTodosUpdate);
     };
-  }, []); // Removed todos as a dependency to prevent unnecessary re-subscriptions
+  }, []);
 
-  console.log('Rendering Todos List...'); // Log before rendering the Todos List
-  console.log('Current todos state:', todos); // Log the current state of todos
+  console.log('Rendering Todos List...');
+  console.log('Current todos state:', todos);
 
   const renderedTodos = todos.map(todo => {
     return (
@@ -75,7 +81,7 @@ export default function TodosList() {
     );
   });
 
-  console.log('Todos List rendered', renderedTodos); // Log after rendering the Todos List
+  console.log('Todos List rendered', renderedTodos);
 
   return isLoading ? (
     <div>Loading...</div>
