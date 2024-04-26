@@ -13,6 +13,7 @@ export default function TodosList() {
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
       console.log('Fetched todos:', res.data); // Log fetched todos
       setTodos(res.data);
+      console.log('State updated with fetched todos:', res.data); // Log state update
     } catch (err) {
       console.log('Error fetching todos:', err); // Log error fetching todos
     }
@@ -24,7 +25,15 @@ export default function TodosList() {
     // Function to call when todos are updated
     const onTodosUpdate = () => {
       console.log('Todos updated event received. Refetching todos.'); // Log event received
-      fetchTodos();
+      fetchTodos().then((newTodos) => {
+        console.log('Todos refetched after update:', newTodos); // Log refetched todos
+        if (JSON.stringify(newTodos) !== JSON.stringify(todos)) {
+          console.log('New todos are different from current state, updating state.');
+          setTodos(newTodos);
+        } else {
+          console.log('New todos are the same as current state, no update needed.');
+        }
+      }); // Log refetching todos
     };
 
     // Subscribe to the custom event 'todosUpdated'
