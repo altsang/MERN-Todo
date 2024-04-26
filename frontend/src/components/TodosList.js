@@ -41,7 +41,7 @@ export default function TodosList() {
       isMountedRef.current = false;
       document.removeEventListener('todosUpdated', handleTodosUpdated);
     };
-  }, [todos]); // Add todos as a dependency to re-run the effect when todos state updates
+  }, []); // Removed todos as a dependency
 
   console.log('Todos state at render:', todos); // Log todos state at render for debugging
 
