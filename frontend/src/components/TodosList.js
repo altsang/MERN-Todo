@@ -37,7 +37,9 @@ export default function TodosList() {
     // Function to call when todos are updated
     const onTodosUpdate = () => {
       console.log('Todos updated event received. Refetching todos.'); // Log event received
-      fetchTodos(); // Fetch todos again to update the state
+      if (isMountedRef.current) {
+        fetchTodos(); // Fetch todos again to update the state
+      }
     };
 
     // Subscribe to the custom event 'todosUpdated'
@@ -48,7 +50,7 @@ export default function TodosList() {
       console.log('Cleaning up todosUpdated event listener.'); // Log cleanup
       document.removeEventListener('todosUpdated', onTodosUpdate);
     };
-  }, [todos]); // Add todos as a dependency
+  }, []); // Removed todos as a dependency to prevent unnecessary re-subscriptions
 
   console.log('Rendering Todos List...'); // Log before rendering the Todos List
 
