@@ -30,7 +30,7 @@ jobs:
         run: npm run build
         working-directory: ./frontend
         env:
-          REACT_APP_BACKEND_URL: http://4.157.209.186/api
+          REACT_APP_BACKEND_URL: http://20.242.170.63/api
 
       - name: Build and push Docker frontend image
         run: |
