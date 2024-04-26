@@ -48,7 +48,7 @@ export default function TodosList() {
       if (isMountedRef.current) {
         console.log('isMountedRef is currently:', isMountedRef.current);
         const fetchedTodos = await fetchTodos();
-        if (isMountedRef.current) {
+        if (isMountedRef.current && JSON.stringify(fetchedTodos) !== JSON.stringify(todos)) {
           console.log('Setting todos state with fetched data after update:', fetchedTodos);
           setTodos(fetchedTodos);
         }
@@ -63,7 +63,7 @@ export default function TodosList() {
       console.log('Cleaning up todosUpdated event listener.');
       document.removeEventListener('todosUpdated', onTodosUpdate);
     };
-  }, []); // Removed the todos dependency to prevent unnecessary re-fetching
+  }, [todos]); // Added todos dependency to ensure updates are reflected
 
   console.log('Rendering Todos List...');
   console.log('Current todos state:', todos);
