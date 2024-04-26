@@ -31,6 +31,7 @@ export default function TodosList() {
     console.log('Component mounted, isMountedRef:', isMountedRef.current);
     fetchTodos().then(fetchedTodos => {
       if (isMountedRef.current) {
+        console.log('Setting todos state with fetched data:', fetchedTodos);
         setTodos(fetchedTodos);
         setIsLoading(false);
       }
@@ -48,6 +49,7 @@ export default function TodosList() {
         console.log('isMountedRef is currently:', isMountedRef.current);
         fetchTodos().then(fetchedTodos => {
           if (isMountedRef.current) {
+            console.log('Setting todos state with fetched data after update:', fetchedTodos);
             setTodos(fetchedTodos);
           }
         });
