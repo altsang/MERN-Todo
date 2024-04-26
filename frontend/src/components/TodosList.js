@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -7,13 +7,14 @@ import Todo from "./Todo";
 export default function TodosList() {
   const [todos, setTodos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const isMountedRef = useRef(null);
 
   async function fetchTodos() {
     console.log('Fetching todos...'); // Log the start of fetching todos
     try {
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
       console.log('Fetched todos:', res.data); // Log fetched todos
-      if (Array.isArray(res.data) && res.data.length) {
+      if (isMountedRef.current && Array.isArray(res.data) && res.data.length) {
         setTodos(res.data);
         setIsLoading(false);
       } else {
@@ -25,7 +26,11 @@ export default function TodosList() {
   }
 
   useEffect(() => {
+    isMountedRef.current = true;
     fetchTodos();
+    return () => {
+      isMountedRef.current = false;
+    };
   }, []);
 
   useEffect(() => {
