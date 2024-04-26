@@ -59,7 +59,7 @@ export default function TodosList() {
       document.removeEventListener('todosUpdated', onTodosUpdate);
       console.log('Event listener for todosUpdated removed'); // Additional debugging
     };
-  }, []);
+  }, [todos]); // Add todos as a dependency to this useEffect
 
   console.log('Todos state at render:', todos); // Log todos state at render for debugging
 
