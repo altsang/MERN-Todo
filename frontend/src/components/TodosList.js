@@ -25,15 +25,7 @@ export default function TodosList() {
     // Function to call when todos are updated
     const onTodosUpdate = () => {
       console.log('Todos updated event received. Refetching todos.'); // Log event received
-      fetchTodos().then((newTodos) => {
-        console.log('Todos refetched after update:', newTodos); // Log refetched todos
-        if (JSON.stringify(newTodos) !== JSON.stringify(todos)) {
-          console.log('New todos are different from current state, updating state.');
-          setTodos(newTodos);
-        } else {
-          console.log('New todos are the same as current state, no update needed.');
-        }
-      }); // Log refetching todos
+      fetchTodos(); // Fetch todos again to update the state
     };
 
     // Subscribe to the custom event 'todosUpdated'
