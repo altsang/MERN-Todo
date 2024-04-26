@@ -12,8 +12,9 @@ export default function TodosList() {
     try {
       const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/todos`);
       console.log('Fetched todos:', res.data); // Log fetched todos
-      setTodos(res.data);
-      console.log('State updated with fetched todos:', res.data); // Log state update
+      setTodos(res.data, () => {
+        console.log('State updated with fetched todos:', res.data); // Log state update with callback
+      });
     } catch (err) {
       console.log('Error fetching todos:', err); // Log error fetching todos
     }
