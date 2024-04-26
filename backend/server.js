@@ -61,7 +61,7 @@ todoRoutes.route("/update/:id").put(function(req, res) {
       todo.todo_description = req.body.todo_description;
       todo.todo_responsible = req.body.todo_responsible;
       todo.todo_priority = req.body.todo_priority;
-      todo.todo_completed = req.body.todo_completed;
+      todo.todo_completed = req.body.todo_completed === 'true' || req.body.todo_completed === true;
 
       todo.save().then(todo => {
         console.log('Todo updated in database:', todo);
