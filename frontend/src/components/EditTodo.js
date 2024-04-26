@@ -40,7 +40,7 @@ export default function EditTodo({ match: { params }, history }) {
     };
 
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/todos/update/${params.id}`, newTodo)
+      .put(`${process.env.REACT_APP_BACKEND_URL}/todos/update/${params.id}`, newTodo)
       .then(res => {
         console.log(res.data);
         console.log('Dispatching todosUpdated event...');
