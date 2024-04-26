@@ -43,11 +43,13 @@ export default function EditTodo({ match: { params }, history }) {
       .put(`${process.env.REACT_APP_BACKEND_URL}/todos/update/${params.id}`, newTodo)
       .then(res => {
         console.log(res.data);
-        console.log('Dispatching todosUpdated event...');
-        const event = new Event('todosUpdated');
-        document.dispatchEvent(event);
-        localStorage.setItem('todo_updated', 'true');
-        history.push("/");
+        setTimeout(() => {
+          console.log('Dispatching todosUpdated event...');
+          const event = new Event('todosUpdated');
+          document.dispatchEvent(event);
+          localStorage.setItem('todo_updated', 'true');
+          history.push("/");
+        }, 500); // Delay dispatching the event by 500ms
       })
       .catch(err => {
         console.log(err);
