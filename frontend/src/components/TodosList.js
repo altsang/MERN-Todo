@@ -61,6 +61,8 @@ export default function TodosList() {
     };
   }, []);
 
+  console.log('Todos state at render:', todos); // Log todos state at render for debugging
+
   const renderedTodos = todos.map(todo => {
     return (
       <tr key={todo._id}>
