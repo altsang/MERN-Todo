@@ -46,7 +46,7 @@ export default function TodosList() {
         console.log('Fetched todos after update:', fetchedTodos); // Added for debugging
         if (isMountedRef.current) {
           console.log('Current todos state before update:', todos); // Log current state before update
-          setTodos([...fetchedTodos]); // Spread into a new array to ensure a new reference
+          setTodos(prevTodos => fetchedTodos); // Use functional update to ensure the state is updated based on the previous state
           console.log('setTodos called with fetched todos:', fetchedTodos); // Log that setTodos was called
         }
       }
