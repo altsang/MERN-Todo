@@ -44,12 +44,12 @@ export default function EditTodo({ match: { params }, history }) {
       .then(res => {
         console.log(res.data);
         console.log('Dispatching todosUpdated event...');
-        const event = new Event('todosUpdated');
-        document.dispatchEvent(event);
-        localStorage.setItem('todo_updated', 'true');
         setTimeout(() => {
+          const event = new Event('todosUpdated');
+          document.dispatchEvent(event);
+          localStorage.setItem('todo_updated', 'true');
           history.push("/");
-        }, 500);
+        }, 2000); // Increased delay to ensure frontend is ready
       })
       .catch(err => {
         console.log(err);
