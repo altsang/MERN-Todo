@@ -56,15 +56,19 @@ todoRoutes.route("/update/:id").put(function(req, res) {
     if (!todo)
       res.status(404).send("data is not found");
     else {
+      console.log("Received update for Todo ID:", req.params.id);
+      console.log("Update data:", req.body);
       todo.todo_description = req.body.todo_description;
       todo.todo_responsible = req.body.todo_responsible;
       todo.todo_priority = req.body.todo_priority;
       todo.todo_completed = req.body.todo_completed;
 
       todo.save().then(todo => {
+        console.log('Todo updated in database:', todo);
         res.json('Todo updated!');
       })
       .catch(err => {
+        console.log('Error updating todo:', err);
         res.status(400).send("Update not possible");
       });
     }
