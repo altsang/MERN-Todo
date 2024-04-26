@@ -51,7 +51,7 @@ export default function EditTodo({ match: { params }, history }) {
           document.dispatchEvent(event);
           localStorage.setItem('todo_updated', 'true');
           history.push("/");
-        }, 5000); // Increased delay to 5 seconds to ensure backend has processed the update
+        }, 1000); // Reduced delay to 1 second to prevent race condition
       })
       .catch(err => {
         console.error(`Error during update: `, err); // Log any errors during the update
