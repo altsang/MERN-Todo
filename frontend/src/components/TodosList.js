@@ -26,7 +26,7 @@ export default function TodosList() {
     isMountedRef.current = true;
     fetchTodos().then(fetchedTodos => {
       if (isMountedRef.current) {
-        setTodos(fetchedTodos);
+        setTodos([...fetchedTodos]); // Spread into a new array to ensure a new reference
         setIsLoading(false);
       }
     });
@@ -43,7 +43,7 @@ export default function TodosList() {
         const fetchedTodos = await fetchTodos();
         console.log('Fetched todos after update:', fetchedTodos); // Added for debugging
         if (isMountedRef.current) {
-          setTodos(fetchedTodos);
+          setTodos([...fetchedTodos]); // Spread into a new array to ensure a new reference
         }
       }
     };
