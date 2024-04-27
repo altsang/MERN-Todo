@@ -16,6 +16,11 @@ code {
   text-decoration: line-through;
 }
 
-.edit-link, .edit-todo-button {
-  color: green;
+.edit-link {
+  color: white;
+}
+
+.edit-todo-button {
+  background-color: green;
+  color: white;
 }
