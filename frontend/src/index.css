@@ -15,3 +15,7 @@ code {
 .completed {
   text-decoration: line-through;
 }
+
+.edit-link {
+  color: green;
+}
