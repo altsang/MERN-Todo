@@ -159,7 +159,7 @@ export default function EditTodo({ match: { params }, history }) {
         <br />
         <br />
         <div className="form-group">
-          <input type="submit" className="btn btn-primary" value="Edit Todo" />
+          <input type="submit" className="btn btn-primary edit-todo-button" value="Edit Todo" />
 
           <input
             type="button"

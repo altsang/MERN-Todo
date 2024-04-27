@@ -16,6 +16,6 @@ code {
   text-decoration: line-through;
 }
 
-.edit-link {
+.edit-link, .edit-todo-button {
   color: green;
 }
