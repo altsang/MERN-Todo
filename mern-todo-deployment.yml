@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mern-todo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mern-todo
+  template:
+    metadata:
+      labels:
+        app: mern-todo
+    spec:
+      containers:
+      - name: mern-todo
+        image: altsang/mern-todo:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mern-todo-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: mern-todo
