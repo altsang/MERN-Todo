@@ -17,5 +17,10 @@ code {
 }
 
 .edit-link {
-  color: green;
+  color: white;
+}
+
+.edit-todo-button {
+  background-color: green;
+  color: white;
 }
