@@ -63,7 +63,7 @@ export default function TodosList() {
         <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoPriority}</td>
         <td className={todo.todoCompleted ? "completed" : ""}>{todo.todoCompleted ? "Yes" : "No"}</td>
         <td>
-          <Link to={`/edit/${todo._id}`}>Edit</Link>
+          <Link to={`/edit/${todo._id}`} className="edit-link">Edit</Link>
         </td>
       </tr>
     );
