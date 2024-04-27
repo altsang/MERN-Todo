@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mern-todo-backend
+  labels:
+    app: mern-todo-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mern-todo-backend
+  template:
+    metadata:
+      labels:
+        app: mern-todo-backend
+    spec:
+      containers:
+      - name: mern-todo-backend
+        image: mern-todo-backend:latest
+        ports:
+        - containerPort: 4000
