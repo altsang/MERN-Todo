@@ -32,6 +32,8 @@ export default function EditTodo({ match: { params }, history }) {
   const onSubmit = e => {
     e.preventDefault();
 
+    console.log(`Before update - Completed status: ${todoCompleted}`); // Log the completed status before sending the request
+
     const newTodo = {
       todoDesc,
       todoResponsible,
@@ -40,17 +42,19 @@ export default function EditTodo({ match: { params }, history }) {
     };
 
     axios
-      .post(`${process.env.REACT_APP_BACKEND_URL}/todos/update/${params.id}`, newTodo)
+      .put(`${process.env.REACT_APP_BACKEND_URL}/todos/update/${params.id}`, newTodo)
       .then(res => {
-        console.log(res.data);
-        // Dispatch the custom event 'todosUpdated' to signal that todos have been updated
-        const event = new Event('todosUpdated');
-        document.dispatchEvent(event);
-        localStorage.setItem('todo_updated', 'true');
-        history.push("/");
+        console.log(`Update response: `, res.data); // Log the response from the backend
+        console.log('Dispatching todosUpdated event...');
+        setTimeout(() => {
+          const event = new Event('todosUpdated');
+          document.dispatchEvent(event);
+          localStorage.setItem('todo_updated', 'true');
+          history.push("/");
+        }, 3000); // Increased delay to 3 seconds to prevent race condition
       })
       .catch(err => {
-        console.log(err);
+        console.error(`Error during update: `, err); // Log any errors during the update
       });
   };
 
@@ -61,7 +65,7 @@ export default function EditTodo({ match: { params }, history }) {
       .delete(`${process.env.REACT_APP_BACKEND_URL}/todos/delete/${params.id}`)
       .then(res => {
         console.log(`Todo with id: ${params.id} deleted successfully. Response:`, res.data); // Log successful delete
-        // Dispatch the custom event 'todosUpdated' to signal that todos have been updated
+        console.log('Dispatching todosUpdated event...');
         const event = new Event('todosUpdated');
         document.dispatchEvent(event);
         console.log(`Dispatched 'todosUpdated' event after delete.`); // Log event dispatch
